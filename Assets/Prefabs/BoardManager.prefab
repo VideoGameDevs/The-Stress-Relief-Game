@@ -1,0 +1,64 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1001 &100100000
+Prefab:
+  m_ObjectHideFlags: 1
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications: []
+    m_RemovedComponents: []
+  m_ParentPrefab: {fileID: 0}
+  m_RootGameObject: {fileID: 1262404339131538}
+  m_IsPrefabParent: 1
+--- !u!1 &1262404339131538
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  serializedVersion: 5
+  m_Component:
+  - component: {fileID: 4142031235449558}
+  - component: {fileID: 114559719419876034}
+  m_Layer: 0
+  m_Name: BoardManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &4142031235449558
+Transform:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1262404339131538}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -3, y: -3, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &114559719419876034
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1262404339131538}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d591b9f382b71ba49aebfa6608cbd8d7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  gemTypes:
+  - {fileID: 21300000, guid: 89e11d267a23c5f44906f9282aaf9c2e, type: 3}
+  - {fileID: 21300000, guid: 0ac9081e5738ef8498a8bb67492e3599, type: 3}
+  - {fileID: 21300000, guid: 614a19da017041d4db9494ec29034fad, type: 3}
+  - {fileID: 21300000, guid: fdf0462fffac0bb468622a7165d209a0, type: 3}
+  - {fileID: 21300000, guid: f6965299038c54c4cac942d874f93c55, type: 3}
+  - {fileID: 21300000, guid: 6e599cc96f003914f9f230d409250e82, type: 3}
+  - {fileID: 21300000, guid: 9c211ffce187c264587ff06a5ad7086b, type: 3}
+  gem: {fileID: 1748019775567320, guid: 863994d8862edd340a6b19780a51ba7b, type: 2}
+  xSize: 6
+  ySize: 6
