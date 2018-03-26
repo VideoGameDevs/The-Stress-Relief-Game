@@ -12,6 +12,7 @@ public class Gem : MonoBehaviour {
 
 	//need this for checking neighbours
 	private Vector2[] adjacentDirections = new Vector2[] { Vector2.up, Vector2.down, Vector2.left, Vector2.right };
+	private bool matchFound = false;
 
 	void Awake() {
 		render = GetComponent<SpriteRenderer>();
@@ -46,7 +47,9 @@ public class Gem : MonoBehaviour {
 				if (GetAllAdjacentTiles().Contains(previousSelected.gameObject)) {
 					//they swap their sprite not the gameObject but looks like they are actually swapping!
 					SwapSprite(previousSelected.render); 
+					previousSelected.ClearAllMatches();
 					previousSelected.Deselect();
+					ClearAllMatches();
 				} else { 
 					//else if you have a previously selected gem but select non neighbour gem, 
 					//previous gem gets deselected and the current one gets selected
@@ -71,7 +74,6 @@ public class Gem : MonoBehaviour {
 		//check the documentation of Physics2D.Raycast to understand this function
 		RaycastHit2D hit = Physics2D.Raycast((Vector2)transform.position + (castDir * this.gameObject.GetComponent<BoxCollider2D>().size.x), castDir);
 		if (hit.collider != null) {
-			Debug.Log (hit.collider.gameObject.GetComponent<SpriteRenderer>().sprite);
 			return hit.collider.gameObject;
 		}
 		return null;
@@ -83,5 +85,46 @@ public class Gem : MonoBehaviour {
 			adjacentTiles.Add(GetAdjacent(adjacentDirections[i]));
 		}
 		return adjacentTiles;
+	}
+
+	private List<GameObject> FindMatch(Vector2 castDir) { 
+		List<GameObject> matchingTiles = new List<GameObject>(); 
+		RaycastHit2D hit = Physics2D.Raycast((Vector2)transform.position + (castDir * this.gameObject.GetComponent<BoxCollider2D>().size.x), castDir);
+		while (hit.collider != null && hit.collider.GetComponent<SpriteRenderer>().sprite == render.sprite) {
+			matchingTiles.Add(hit.collider.gameObject);
+			hit = Physics2D.Raycast((Vector2)hit.collider.transform.position + (castDir * hit.collider.gameObject.GetComponent<BoxCollider2D>().size.x), castDir);
+		}
+		return matchingTiles; 
+	}
+
+	private void ClearMatch(Vector2[] paths) // 1
+	{
+		List<GameObject> matchingTiles = new List<GameObject>(); // 2
+		for (int i = 0; i < paths.Length; i++) // 3
+		{
+			matchingTiles.AddRange(FindMatch(paths[i]));
+		}
+		if (matchingTiles.Count >= 2) // 4
+		{
+			for (int i = 0; i < matchingTiles.Count; i++) // 5
+			{
+				matchingTiles[i].GetComponent<SpriteRenderer>().sprite = null;
+			}
+			matchFound = true; // 6
+		}
+	}
+
+	public void ClearAllMatches() {
+		if (render.sprite == null)
+			return;
+
+		ClearMatch(new Vector2[2] { Vector2.left, Vector2.right });
+		ClearMatch(new Vector2[2] { Vector2.up, Vector2.down });
+		if (matchFound) {
+			render.sprite = null;
+			matchFound = false;
+			StopCoroutine(BoardManager.board.FindNullTiles());
+			StartCoroutine(BoardManager.board.FindNullTiles());
+		}
 	}
 }
